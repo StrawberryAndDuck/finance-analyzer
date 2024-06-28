@@ -1,8 +1,12 @@
+version: "3"
+
 services:
-  slack_channels:
+  spring-be-pod:
     build:
       context: .
       dockerfile: Dockerfile
+    image: 569659514718.dkr.ecr.ap-northeast-2.amazonaws.com/spring-be:0.0.1
+    restart: always
     ports:
       - 8080:8080
     environment: {}

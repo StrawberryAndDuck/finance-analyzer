@@ -1,9 +1,12 @@
 FROM python:3.9-slim-buster
 
-WORKDIR /app/SlackChannels
-COPY ./ /app/SlackChannels/
-
+ARG DEBIAN_FRONTEND=noninteractive
 RUN pip install --upgrade pip && pip install poetry
-RUN poetry install
+WORKDIR /app
 
-CMD poetry run gunicorn --workers 1 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8080 -m 007 app.main:app --timeout 300
+COPY pyproject.toml /app/
+COPY poetry.lock /app/
+RUN poetry config virtualenvs.create false && poetry install
+
+COPY ./ /app/
+CMD ["sh", "-c", "/app/scripts/run.sh"]
