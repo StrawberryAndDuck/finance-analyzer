@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 import os
 
 import aiohttp
@@ -99,6 +100,10 @@ async def retrieve_queried_text_contents(
         {
             "title": post["data"]["title"],
             "selftext": post["data"]["selftext"],
+            "permalink": f"{API_URL_REDDIT}{post['data']['permalink']}",
+            "created_utc": datetime.datetime.utcfromtimestamp(
+                post["data"]["created_utc"]
+            ),
         }
         for post in filtered_children
     ]
@@ -108,7 +113,9 @@ async def monitoring(query: str, interval: int = 60):
     while True:
         contents = await retrieve_queried_text_contents(query=query)
         for content in contents:
-            logger.info(f"{content['title']}|\n{content['selftext']}")
+            logger.info(
+                f"{content['title']}|\n{content['created_utc']}|\n{content['permalink']}|\n{content['selftext']}"
+            )
             await asyncio.sleep(interval)
 
 

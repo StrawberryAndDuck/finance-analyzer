@@ -70,8 +70,9 @@ class SlackLoggingHandler(logging.Handler):
                     {
                         "type": "section",
                         "fields": [
-                            {"type": "mrkdwn", "text": f"*Timestamp:*\n{elems[0]}"},
                             {"type": "mrkdwn", "text": f"*Title:*\n{elems[4]}"},
+                            {"type": "mrkdwn", "text": f"*Created:*\n{elems[5]}"},
+                            {"type": "mrkdwn", "text": f"*Link:*\n{elems[6]}"},
                         ],
                     },
                 ],
@@ -83,7 +84,7 @@ class SlackLoggingHandler(logging.Handler):
             json={
                 "channel": self.channel,
                 "thread_ts": json.loads(response.text)["ts"],
-                "text": f"```Title: {elems[4]}\n{self.sep.join(elems[5:])}```",
+                "text": f"```Title: {elems[4]}\n{self.sep.join(elems[6:])}```",
             },
         )
 
