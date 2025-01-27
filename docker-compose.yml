@@ -1,11 +1,11 @@
 version: "3"
 
 services:
-  spring-be-pod:
+  be:
     build:
       context: .
       dockerfile: Dockerfile
-    image: 569659514718.dkr.ecr.ap-northeast-2.amazonaws.com/spring-be:0.0.1
+    image: 569659514718.dkr.ecr.ap-northeast-2.amazonaws.com/finance-analyzer:0.0.1
     restart: always
     ports:
       - 8080:8080

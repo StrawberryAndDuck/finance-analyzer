@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster
+FROM python:3.10-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN pip install --upgrade pip && pip install poetry
