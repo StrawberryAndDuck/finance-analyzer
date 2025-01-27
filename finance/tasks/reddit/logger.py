@@ -1,4 +1,3 @@
-import contextvars
 import json
 import logging
 import logging.handlers
@@ -10,6 +9,8 @@ from typing import Any, Union
 
 import pytz
 import requests
+
+from finance.models import ChatHuggingFaceSingleton
 
 fmt = f"%(asctime)s | %(levelname)s | {socket.gethostname()} | %(module)s:%(lineno)d | %(message)s"
 
@@ -78,15 +79,24 @@ class SlackLoggingHandler(logging.Handler):
                 ],
             },
         )
-        response = requests.post(
-            url=self.post_api_url,
-            headers=self.headers,
-            json={
-                "channel": self.channel,
-                "thread_ts": json.loads(response.text)["ts"],
-                "text": f"```Title: {elems[4]}\n{self.sep.join(elems[6:])}```",
-            },
-        )
+        origin_content = self.sep.join(elems[6:])
+        # translated_content = ChatHuggingFaceSingleton.instance().translate(
+        #     translate_to="Korean", text=origin_content
+        # )
+        contents = [
+            origin_content,
+            # translated_content,
+        ]
+        for content in contents:
+            response = requests.post(
+                url=self.post_api_url,
+                headers=self.headers,
+                json={
+                    "channel": self.channel,
+                    "thread_ts": json.loads(response.text)["ts"],
+                    "text": f"```{content}```",
+                },
+            )
 
 
 class CustomLogger(logging.Logger):

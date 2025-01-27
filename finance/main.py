@@ -1,7 +1,9 @@
+import os
 from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, Response
+from huggingface_hub import login
 
 from finance.api.router import router as api_router
 from finance.tasks.reddit.task import add_reddit_tasks
@@ -16,6 +18,7 @@ topics = ["stock"]
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     load_dotenv()
+    login(token=os.getenv("HF_API_TOKEN"))
     await add_reddit_tasks(topics=topics)
     yield
 
