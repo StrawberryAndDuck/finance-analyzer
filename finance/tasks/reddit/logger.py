@@ -71,15 +71,16 @@ class SlackLoggingHandler(logging.Handler):
                     {
                         "type": "section",
                         "fields": [
-                            {"type": "mrkdwn", "text": f"*Title:*\n{elems[4]}"},
-                            {"type": "mrkdwn", "text": f"*Created:*\n{elems[5]}"},
-                            {"type": "mrkdwn", "text": f"*Link:*\n{elems[6]}"},
+                            {"type": "mrkdwn", "text": f"*Topic:*{elems[4]}"},
+                            {"type": "mrkdwn", "text": f"*Title:*{elems[5]}"},
+                            {"type": "mrkdwn", "text": f"*Created:*{elems[6]}"},
+                            {"type": "mrkdwn", "text": f"*Link:*{elems[7]}"},
                         ],
                     },
                 ],
             },
         )
-        origin_content = self.sep.join(elems[6:])
+        origin_content = self.sep.join(elems[8:])
         # translated_content = ChatHuggingFaceSingleton.instance().translate(
         #     translate_to="Korean", text=origin_content
         # )

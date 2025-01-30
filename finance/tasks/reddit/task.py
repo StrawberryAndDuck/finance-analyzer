@@ -111,14 +111,16 @@ async def retrieve_queried_text_contents(
 
 async def monitoring(query: str, interval: int = 60):
     while True:
-        contents = await retrieve_queried_text_contents(query=query)
+        contents = await retrieve_queried_text_contents(
+            query=query, recent="hour", limit=1
+        )
         for content in contents:
             logger.info(
-                f"{content['title']}|\n{content['created_utc']}|\n{content['permalink']}|\n{content['selftext']}"
+                f"{query}|\n{content['title']}|\n{content['created_utc']}|\n{content['permalink']}|\n{content['selftext']}"
             )
             await asyncio.sleep(interval)
 
 
 async def add_reddit_tasks(topics: list[str]):
     for topic in topics:
-        asyncio.create_task(monitoring(query=topic, interval=10))
+        asyncio.create_task(monitoring(query=topic, interval=60 * 20))

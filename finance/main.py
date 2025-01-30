@@ -12,7 +12,7 @@ sub_routers = [
     api_router,
 ]
 
-topics = ["stock"]
+topics = ["nvidia", "telsa", "google", "microsoft"]
 
 
 @asynccontextmanager
